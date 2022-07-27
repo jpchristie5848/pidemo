@@ -31,7 +31,6 @@ public class AltarBlockEntity extends BlockEntity {
     private Identifier storedItem;
     private Block RUNED_BLOCK;
     private Block PILLAR_BLOCK;
-    private HashMap<Vec3i, BlockState> abovePillarBlocks;
 
     // north, south, east, and west
     private final Vec3i[] directions = {new Vec3i(0,0,-1), new Vec3i(0,0,1), new Vec3i(1,0,0),
@@ -100,9 +99,6 @@ public class AltarBlockEntity extends BlockEntity {
         return itemUpdateDelayStart == -1;
     }
 
-    public HashMap<Vec3i, BlockState> getAbovePillarBlocks(){
-        return abovePillarBlocks;
-    }
 
     public static void ticker(World world, BlockPos pos, BlockState state, AltarBlockEntity be) {
         be.tick(world, pos, state);
@@ -112,8 +108,6 @@ public class AltarBlockEntity extends BlockEntity {
         if(tickCounter % 50 == 0){
             boolean allActivated = true;
 
-            if(abovePillarBlocks == null) abovePillarBlocks = new HashMap<>();
-            System.out.println("length of abovePillarBlocks: "+abovePillarBlocks.keySet().size());
             // check all 4 directions from altar for activated pillars
             for(Vec3i direction : directions){
 
@@ -142,9 +136,6 @@ public class AltarBlockEntity extends BlockEntity {
 
                     // check if the pillar block is the correct type of block, and it's linked to the altar
                     if (pillarState.getBlock() == this.PILLAR_BLOCK && BlockHelpers.linkBlockToAltar(pillarPos, pos, world, direction)){
-
-                        abovePillarBlocks.put(direction, world.getBlockState(pillarPos.up()));
-                        System.out.println("putting "+direction.toShortString()+" "+world.getBlockState(pillarPos.up()).getBlock().toString());
 
                         // check if the pillar is activated
                         if (pillarState.get(AbstractAltarComponentBlock.ACTIVATED)) {

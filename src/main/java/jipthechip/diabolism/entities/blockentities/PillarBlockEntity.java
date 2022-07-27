@@ -2,6 +2,7 @@ package jipthechip.diabolism.entities.blockentities;
 
 import jipthechip.diabolism.blocks.AbstractAltarComponentBlock;
 import jipthechip.diabolism.blocks.DiabolismBlocks;
+import jipthechip.diabolism.blocks.MossyPillarBlock;
 import jipthechip.diabolism.entities.DiabolismEntities;
 import joptsimple.internal.Strings;
 import net.minecraft.block.Block;
@@ -24,6 +25,10 @@ public class PillarBlockEntity extends AltarComponentBlockEntity {
     private boolean CHARGED_FROM_EVENT;
     private boolean REQUIRES_UNIQUE_ACTIVATOR_BLOCKS;
     private Vec3i directionFromAltar;
+
+    // north, south, east, and west
+    private final Vec3i[] directions = {new Vec3i(0,0,-1), new Vec3i(0,0,1), new Vec3i(1,0,0),
+            new Vec3i(-1,0,0)};
 
     public PillarBlockEntity(BlockPos pos, BlockState state) {
         super(DiabolismEntities.PILLAR_BLOCKENTITY, pos, state);
@@ -61,23 +66,24 @@ public class PillarBlockEntity extends AltarComponentBlockEntity {
         if(tickCounter % 50 == 0){
             BlockState aboveState = world.getBlockState(pos.up());
             AltarBlockEntity altarBlockEntity = linkedAltar == null ? null : (AltarBlockEntity)world.getBlockEntity(linkedAltar);
-            HashMap<Vec3i, BlockState> abovePillarBlocks = new HashMap<>();
             boolean alreadyExists = false;
 
             // if unique activator blocks are required on pillar, get the activator blocks of other pillars
             if(REQUIRES_UNIQUE_ACTIVATOR_BLOCKS && altarBlockEntity != null)
             {
-                abovePillarBlocks = altarBlockEntity.getAbovePillarBlocks();
-                abovePillarBlocks.remove(directionFromAltar);
                 System.out.println("other pillars for "+directionFromAltar.toShortString()+": ");
-                for(Vec3i key : abovePillarBlocks.keySet()){
-                    System.out.println("\t"+key.toShortString()+": "+abovePillarBlocks.get(key).getBlock().toString());
+                for(Vec3i direction : directions){
+                    System.out.println("\t"+direction.toShortString());
                 }
-                for(Vec3i direction : abovePillarBlocks.keySet()){
-                    // above pillar block in direction is an activator block, equal to this above pillar block, and has an activated pillar below it, do not activate the current pillar
-                    if(ACTIVATOR_BLOCKS.contains(abovePillarBlocks.get(direction).getBlock()) && abovePillarBlocks.get(direction).getBlock() == aboveState.getBlock() && world.getBlockState(getLinkedAltar().add(direction.multiply(3))).get(AbstractAltarComponentBlock.ACTIVATED)){
-                        System.out.println("found an activated pillar with the same activator block, not activating pillar "+directionFromAltar.toShortString());
-                        alreadyExists = true;
+                for(Vec3i direction : directions){
+                    BlockPos pillarBlockPos = getLinkedAltar().add(direction.multiply(3));
+                    if(!directionFromAltar.equals(direction) && world.getBlockState(pillarBlockPos).getBlock() instanceof MossyPillarBlock){
+                        // above pillar block in direction is an activator block, equal to this above pillar block, and has an activated pillar below it, do not activate the current pillar
+                        if(ACTIVATOR_BLOCKS.contains(world.getBlockState(pillarBlockPos.up()).getBlock()) && world.getBlockState(pillarBlockPos).get(AbstractAltarComponentBlock.ACTIVATED) && world.getBlockState(pillarBlockPos.up()).getBlock().equals(world.getBlockState(getLinkedAltar().add(directionFromAltar.multiply(3).up())).getBlock())){
+                            System.out.println("found an activated pillar with the same activator block, not activating pillar "+directionFromAltar.toShortString());
+                            alreadyExists = true;
+                            break;
+                        }
                     }
                 }
             }
