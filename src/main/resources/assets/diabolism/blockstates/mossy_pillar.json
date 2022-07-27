@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "activated=false": { "model": "diabolism:block/mossy_pillar" },
+    "activated=true": {"model":  "diabolism:block/mossy_pillar_activated"}
+  }
+}

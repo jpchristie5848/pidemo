@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "diabolism:block/runed_bone_top",
+    "side": "diabolism:block/runed_bone_side"
+  }
+}

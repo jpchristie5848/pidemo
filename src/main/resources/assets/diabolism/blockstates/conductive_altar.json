@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "activated=false": { "model": "diabolism:block/conductive_altar" },
+    "activated=true": {"model":  "diabolism:block/conductive_altar_activated"}
+  }
+}
