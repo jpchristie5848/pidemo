@@ -16,6 +16,6 @@ public class DiabolismBlockTagProvider extends FabricTagProvider.BlockTagProvide
 
     @Override
     protected void generateTags() {
-        getOrCreateTagBuilder(BlockTags.DIRT).add(new Block[]{DiabolismBlocks.RUNED_MOSS});
+        getOrCreateTagBuilder(BlockTags.DIRT).add(new Block[]{DiabolismBlocks.MOSSY_PILLAR});
     }
 }

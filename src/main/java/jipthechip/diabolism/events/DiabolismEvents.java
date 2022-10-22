@@ -1,14 +1,19 @@
 package jipthechip.diabolism.events;
 
+import jipthechip.diabolism.Utils.MathUtils;
 import jipthechip.diabolism.blocks.AbstractAltarBlock;
 import jipthechip.diabolism.blocks.AbstractAltarComponentBlock;
 import jipthechip.diabolism.blocks.DiabolismBlocks;
 import jipthechip.diabolism.blocks.RunedCopperBlock;
+import jipthechip.diabolism.entities.DiabolismEntities;
+import jipthechip.diabolism.entities.ProjectileSpellEntity;
 import jipthechip.diabolism.entities.blockentities.AltarBlockEntity;
+import jipthechip.diabolism.items.DiabolismItems;
 import jipthechip.diabolism.items.RunicPowder;
 import jipthechip.diabolism.packets.DiabolismPackets;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -22,7 +27,13 @@ import net.minecraft.tag.BlockTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3f;
+
+import static java.lang.Math.sin;
+import static net.minecraft.util.math.MathHelper.cos;
 
 public class DiabolismEvents {
 
@@ -45,15 +56,32 @@ public class DiabolismEvents {
             return ActionResult.SUCCESS;
         }));
 
+        UseItemCallback.EVENT.register((player, world, hand)->
+        {
+            ItemStack stackInHand = player.getStackInHand(hand);
+
+            if(stackInHand.getItem() == DiabolismItems.BASIC_WAND){
+
+                //System.out.println("pitch: "+player.getPitch());
+                //System.out.println("yaw: "+player.getYaw());
+                Vec3d direction = Vec3d.fromPolar(player.getPitch(), player.getYaw());
+                ProjectileSpellEntity spellEntity = new ProjectileSpellEntity(DiabolismEntities.PROJECTILE_SPELL,
+                        player.getX() + (direction.getX() * 2),
+                        player.getY() + (direction.getY() * 2)+1,
+                        player.getZ() + (direction.getZ() * 2),
+                        world, direction.multiply(0.3));
+
+                world.spawnEntity(spellEntity);
+            }
+
+            return TypedActionResult.pass(stackInHand);
+        });
+
         // USE BLOCK EVENT
         UseBlockCallback.EVENT.register((player, world, hand, hitResult) ->
         {
 
             Block block = world.getBlockState(hitResult.getBlockPos()).getBlock();
-
-            if(block == DiabolismBlocks.RUNED_MOSS){
-                System.out.println("Runed Moss is in BlockTags.DIRT: "+(world.getBlockState(hitResult.getBlockPos()).isIn(BlockTags.DIRT)));
-            }
 
             // check if player is holding runic powder
             if(block.equals(Blocks.GLASS) || block.equals(Blocks.COPPER_BLOCK)){
@@ -92,7 +120,6 @@ public class DiabolismEvents {
 
                     if(storedItem != Items.AIR && stack.getItem() != storedItem){
                         if(player.isSneaking()) {
-                            System.out.println("removing stored item from altar: " + storedItem.toString());
                             blockEntity.setStoredItem(Items.AIR);
                             if (stack == ItemStack.EMPTY) {
                                 player.setStackInHand(Hand.MAIN_HAND, new ItemStack(storedItem, 1));
@@ -101,11 +128,9 @@ public class DiabolismEvents {
                             }
                             blockEntity.markDirty();
                             world.updateListeners(pos, state, state, Block.NOTIFY_LISTENERS);
-                            System.out.println("activated: "+state.get(AbstractAltarComponentBlock.ACTIVATED));
                             return ActionResult.SUCCESS;
                         }
                     }else if(stack != ItemStack.EMPTY && storedItem == Items.AIR){
-                        System.out.println("Adding item to altar: "+stack.getItem().toString());
                         blockEntity.setStoredItem(stack.getItem());
                         if(stack.getCount() > 1){
                             stack.setCount(stack.getCount()-1);
@@ -115,10 +140,8 @@ public class DiabolismEvents {
                         }
                         blockEntity.markDirty();
                         world.updateListeners(pos, state, state, Block.NOTIFY_LISTENERS);
-                        System.out.println("activated: "+state.get(AbstractAltarComponentBlock.ACTIVATED));
                         return ActionResult.SUCCESS;
                     }
-                    System.out.println("activated: "+state.get(AbstractAltarComponentBlock.ACTIVATED));
                 }
             }
             return ActionResult.PASS;

@@ -57,7 +57,6 @@ public abstract class AbstractAltarBlock extends AbstractAltarComponentBlock {
 
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         super.onBreak(world, pos, state, player);
-        System.out.println("altar block broken");
         final Vec3i[] directions = {new Vec3i(0,0,-1), new Vec3i(0,0,1), new Vec3i(1,0,0),
                 new Vec3i(-1,0,0)};
 

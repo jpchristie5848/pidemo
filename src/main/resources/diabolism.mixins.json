@@ -4,7 +4,12 @@
   "package": "jipthechip.diabolism.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "LightningEntityMixin"
+    "LightningEntityMixin",
+    "EntityMixin",
+    "ProjectileUtilMixin",
+    "EntityAccessor",
+    "PersistentProjectileEntityMixin",
+    "BoxMixin"
   ],
   "client": [
   ],

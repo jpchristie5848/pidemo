@@ -21,6 +21,8 @@ import static jipthechip.diabolism.blocks.DiabolismBlocks.*;
 
 public class Diabolism implements ModInitializer {
 
+    public static final String MOD_ID = "diabolism";
+
     @Override
     public void onInitialize() {
         DiabolismBlocks.registerBlocks();

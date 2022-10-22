@@ -2,12 +2,21 @@ package jipthechip.diabolism.blocks;
 
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
+import net.fabricmc.fabric.api.renderer.v1.mesh.MeshBuilder;
+import net.fabricmc.fabric.api.renderer.v1.model.ForwardingBakedModel;
 import net.minecraft.block.*;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.entity.ExperienceOrbEntityRenderer;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.scoreboard.ScoreboardCriterion;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import software.bernie.geckolib3.renderers.geo.GeoBlockRenderer;
+import software.bernie.geckolib3.renderers.geo.layer.LayerGlowingAreasGeo;
 
+import java.util.function.Predicate;
 import java.util.function.ToIntFunction;
 
 public class DiabolismBlocks {
@@ -33,6 +42,8 @@ public class DiabolismBlocks {
         BlockRenderLayerMap.INSTANCE.putBlock(DiabolismBlocks.CARVED_ALTAR, RenderLayer.getCutout());
 
         BlockRenderLayerMap.INSTANCE.putBlock(DiabolismBlocks.CONDUCTIVE_PILLAR, RenderLayer.getCutout());
+        //BlockRenderLayerMap.INSTANCE.putBlock(DiabolismBlocks.CONDUCTIVE_PILLAR, RenderLayer.);
+
         BlockRenderLayerMap.INSTANCE.putBlock(DiabolismBlocks.MOSSY_PILLAR, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(DiabolismBlocks.CARVED_PILLAR, RenderLayer.getCutout());
     }

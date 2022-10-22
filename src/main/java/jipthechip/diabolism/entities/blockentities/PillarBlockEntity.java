@@ -71,16 +71,12 @@ public class PillarBlockEntity extends AltarComponentBlockEntity {
             // if unique activator blocks are required on pillar, get the activator blocks of other pillars
             if(REQUIRES_UNIQUE_ACTIVATOR_BLOCKS && altarBlockEntity != null)
             {
-                System.out.println("other pillars for "+directionFromAltar.toShortString()+": ");
-                for(Vec3i direction : directions){
-                    System.out.println("\t"+direction.toShortString());
-                }
                 for(Vec3i direction : directions){
                     BlockPos pillarBlockPos = getLinkedAltar().add(direction.multiply(3));
                     if(!directionFromAltar.equals(direction) && world.getBlockState(pillarBlockPos).getBlock() instanceof MossyPillarBlock){
                         // above pillar block in direction is an activator block, equal to this above pillar block, and has an activated pillar below it, do not activate the current pillar
                         if(ACTIVATOR_BLOCKS.contains(world.getBlockState(pillarBlockPos.up()).getBlock()) && world.getBlockState(pillarBlockPos).get(AbstractAltarComponentBlock.ACTIVATED) && world.getBlockState(pillarBlockPos.up()).getBlock().equals(world.getBlockState(getLinkedAltar().add(directionFromAltar.multiply(3).up())).getBlock())){
-                            System.out.println("found an activated pillar with the same activator block, not activating pillar "+directionFromAltar.toShortString());
+                            //System.out.println("found an activated pillar with the same activator block, not activating pillar "+directionFromAltar.toShortString());
                             alreadyExists = true;
                             break;
                         }
@@ -88,7 +84,7 @@ public class PillarBlockEntity extends AltarComponentBlockEntity {
                 }
             }
             if(ACTIVATOR_BLOCKS.contains(aboveState.getBlock()) && !CHARGED_FROM_EVENT){
-                System.out.println("setting pillar "+directionFromAltar.toShortString()+" to "+!alreadyExists);
+                //System.out.println("setting pillar "+directionFromAltar.toShortString()+" to "+!alreadyExists);
                 world.setBlockState(pos, state.with(AbstractAltarComponentBlock.ACTIVATED, !alreadyExists));
             }else if(!ACTIVATOR_BLOCKS.contains(aboveState.getBlock())){world.setBlockState(pos, state.with(AbstractAltarComponentBlock.ACTIVATED, false));
             }

@@ -46,7 +46,7 @@ public class AltarBlockEntity extends BlockEntity {
         }else if(block == DiabolismBlocks.CARVED_ALTAR){
             setParameters(DiabolismBlocks.RUNED_BONE, DiabolismBlocks.CARVED_PILLAR);
         }
-        System.out.println("altar constructor called");
+        //System.out.println("altar constructor called");
     }
 
     public void setParameters(Block runedBlock, Block pillarBlock){
@@ -92,7 +92,7 @@ public class AltarBlockEntity extends BlockEntity {
     public void setStoredItem(@Nullable Item item){
         storedItem = Registry.ITEM.getId(item);
         itemUpdateDelayStart = tickCounter;
-        System.out.println("set stored item to: "+(item == null? "null" : item.toString()));
+        //System.out.println("set stored item to: "+(item == null? "null" : item.toString()));
     }
 
     public boolean storedItemUpdatable(){
