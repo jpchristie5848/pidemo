@@ -1,6 +1,0 @@
-{
-  "variants": {
-    "activated=false": { "model": "diabolism:block/carved_altar" },
-    "activated=true": {"model":  "diabolism:block/carved_altar_activated"}
-  }
-}

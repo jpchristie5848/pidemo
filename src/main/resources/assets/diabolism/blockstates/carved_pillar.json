@@ -1,6 +1,0 @@
-{
-  "variants": {
-    "activated=false": { "model": "diabolism:block/carved_pillar" },
-    "activated=true": {"model":  "diabolism:block/carved_pillar_activated"}
-  }
-}

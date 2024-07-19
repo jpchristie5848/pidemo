@@ -1,6 +1,0 @@
-{
-  "variants": {
-    "activated=false": { "model": "diabolism:block/runed_bone" },
-    "activated=true": { "model":  "diabolism:block/runed_bone_activated"}
-  }
-}

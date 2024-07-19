@@ -1,6 +1,0 @@
-{
-  "variants": {
-    "activated=false": { "model": "diabolism:block/mossy_altar" },
-    "activated=true": {"model":  "diabolism:block/mossy_altar_activated"}
-  }
-}

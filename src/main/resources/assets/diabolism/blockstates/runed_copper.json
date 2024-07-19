@@ -1,6 +1,0 @@
-{
-  "variants": {
-    "activated=false": { "model": "diabolism:block/runed_copper" },
-    "activated=true": { "model":  "diabolism:block/runed_copper_activated"}
-  }
-}

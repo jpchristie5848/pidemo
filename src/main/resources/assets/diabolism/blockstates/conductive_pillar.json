@@ -1,6 +1,0 @@
-{
-  "variants": {
-    "activated=false": { "model": "diabolism:block/conductive_pillar" },
-    "activated=true": {"model":  "diabolism:block/conductive_pillar_activated"}
-  }
-}

@@ -1,6 +1,0 @@
-{
-  "variants": {
-    "activated=false": { "model": "diabolism:block/runed_moss" },
-    "activated=true": { "model":  "diabolism:block/runed_moss_activated"}
-  }
-}
