@@ -1,9 +1,12 @@
 package com.jipthechip.pidemo.controller;
 
 import com.jipthechip.pidemo.model.DemoModel;
+import com.jipthechip.pidemo.model.LightLevel;
 import com.jipthechip.pidemo.service.DemoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
