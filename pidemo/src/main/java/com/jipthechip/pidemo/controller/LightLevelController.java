@@ -3,6 +3,7 @@ package com.jipthechip.pidemo.controller;
 import com.jipthechip.pidemo.model.LightLevel;
 import com.jipthechip.pidemo.service.LightLevelService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,8 +14,8 @@ public class LightLevelController {
     @Autowired
     LightLevelService service;
 
-    @GetMapping("/light-level-all")
-    private List<LightLevel> getAllLightLevel(){
+    @GetMapping("/light-level-json")
+    private List<LightLevel> lightLevelJson(){
         return service.findAllLightLevel();
     }
 
